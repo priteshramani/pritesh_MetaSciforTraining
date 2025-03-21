@@ -1,0 +1,186 @@
+﻿1. Explain the key features of Streamlit that make it suitable for data science and machine learning applications.
+Streamlit is a popular choice. It provides a real time run and automatically rerun app. Python script into a web app with just a few lines of code.Open Source & free.it’s simple and fast.
+
+
+
+
+2. How does Streamlit handle state management, and what are some ways to persist data across interactions?
+Streamlit handles state management every time a user interacts with a like clicking a button or moving a slider, Streamlit reruns your entire script from top to bottom.
+st.session_state  as dictionary that lives across reruns.
+@st.cache_data Caches data loading functions
+@st.cache_resource Caches resources like database connections or ML model
+
+
+
+
+3. Compare Streamlit with Flask and Django. In what scenarios would you prefer Streamlit over these traditional web frameworks?
+Streamlit : 
+A super-fast, interactive app with zero front-end coding.
+To share data science insights or ML models quickly.
+
+
+Flask :
+A lightweight, flexible framework for custom backends or APIs.
+To expose ML models as REST APIs for consumption by other services.
+
+
+Django :
+A scalable, secure, full-stack framework for complex, multi-user apps.
+A powerful admin interface and built-in authentication and permissions.
+
+
+
+
+
+
+4. Describe the role of caching (@st.cache_data and @st.cache_resource) in Streamlit. How does it improve performance?
+@st.cache_data Cache data outputs (dataframes, lists),Cache data processing or data fetching functions.Use it when your function returns data, like Pandas DataFrames, lists, or dictionaries.
+
+
+@st.cache_resource Cache heavy resources (models, database connections),Cache heavy resources that are expensive to initialize.Use it when you need to create connections, load ML models, or initialize large resources.
+
+
+
+
+
+
+5. How can you integrate a database with a Streamlit app? Provide an example using SQLite or PostgreSQL.
+SQLite = perfect for quick, simple apps
+PostgreSQL = better for scalable, production-grade apps
+
+
+import streamlit as st
+import sqlite3
+import pandas as pd
+
+
+def create_connection():
+    conn = sqlite3.connect('simple_db.db')
+    return conn
+
+
+def create_table(conn):
+    conn.execute('''
+        CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            age INTEGER NOT NULL
+        );
+    ''')
+    conn.commit()
+
+
+def add_user(conn, name, age):
+    conn.execute('INSERT INTO users (name, age) VALUES (?, ?)', (name, age))
+    conn.commit()
+
+
+def get_users(conn):
+    cursor = conn.execute('SELECT * FROM users')
+    rows = cursor.fetchall()
+    return rows
+
+
+# Streamlit App
+st.title("Simple SQLite with Streamlit")
+conn = create_connection()
+create_table(conn)
+
+
+st.header("Add a New User")
+name = st.text_input("Enter name")
+age = st.number_input("Enter age", min_value=1, max_value=120, step=1)
+
+
+if st.button("Add User"):
+    add_user(conn, name, age)
+    st.success(f"User {name} added successfully!")
+
+
+st.header("User List")
+users = get_users(conn)
+
+
+df = pd.DataFrame(users, columns=['ID', 'Name', 'Age'])
+st.dataframe(df)
+
+
+conn.close()
+
+
+6. Discuss how you can deploy a Streamlit application. Mention at least two deployment platforms.
+Push your code on GIthub.
+Go to: https://streamlit.io/cloud
+Click "New app"
+Connect your GitHub account
+Select your repository and branch
+Click "Deploy"
+Your app gets its own URL.
+
+
+Two Deployment Platforms:
+1. Streamlit
+2. Docker
+
+
+
+
+
+
+7. What are some limitations of Streamlit, and how can you overcome them when building production-grade applications?
+1.Limited State Management
+  Use st.session_state or external tools like Redis.
+2.No Built-in Authentication
+  Use streamlit-authenticator or reverse proxies (Nginx/Auth0).
+3.Scalability & Concurrency Limits
+  Deploy on scalable platforms (Render, AWS) and use load balancers.
+4.Limited UI Customization
+  Use Streamlit Components or embed custom HTML/JS/CSS.
+5.Handling Long Processes
+  Use @st.cache_data, background tasks, and show progress bars.
+6.Deployment & Security
+  Secure with HTTPS, environment variables, and reverse proxies.
+
+
+
+
+
+
+8. Explain the process of creating an interactive dashboard in Streamlit. What components would you use?
+
+
+st.sidebar: Filters & navigation
+st.selectbox, st.slider: User inputs
+st.dataframe: Show tables
+st.chart / Plotly / Altair: Graphs & charts
+st.metric: KPIs & numbers
+st.tabs & st.expander: Organize content
+
+
+
+
+
+
+9. How would you implement user authentication in a Streamlit app? Provide possible solutions.
+
+
+streamlit-authenticator (Easy & Quick)
+Add login forms, hashed passwords, and session management.
+Best for internal tools and prototypes.
+
+
+
+
+
+
+10. Describe a real-world use case where you have implemented or would implement a Streamlit application.
+
+
+A company wants to monitor sales performance across regions in real-time.
+
+
+Upload Sales Data (CSV/Excel).
+Interactive Filters (date range, region, product category).
+KPIs & Metrics (total sales, revenue, top products) using st.metric().
+Visualizations (bar charts, line charts) with Plotly.
+Download Reports as Excel/PDF.

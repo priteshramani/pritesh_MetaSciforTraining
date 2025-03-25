@@ -1,7 +1,7 @@
 import streamlit as st
 
 st.title("Hello Guys") 
-st.write("Thank's for visit my first streamlit")
+st.write("Thank's for visit my first streamlit app")
 
 if st.button("Click Me!"):
     st.success("success")

@@ -2,8 +2,23 @@ import streamlit as st
 import pandas as pd
 from bs4 import BeautifulSoup
 import re
-import io
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+import time
 
+# Function to fetch page source from URL
+def download_page_source(url="https://propertyonion.com/property_search", delay=5):
+    options = webdriver.ChromeOptions()
+    options.add_argument("--headless")  # Optional: run in headless mode
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+    driver.get(url)
+    time.sleep(delay)
+    page_source = driver.page_source
+    driver.quit()
+    return page_source
+
+# Function to scrape the HTML content
 def scrape_real_estate_data(file_content):
     soup = BeautifulSoup(file_content, "html.parser")
     fullpanel = soup.find_all("div", class_="addressPanel flex justify-content-between align-items-center")
@@ -26,22 +41,35 @@ def scrape_real_estate_data(file_content):
 
     return pd.DataFrame(rows)
 
-# Streamlit App
-st.title("🏠 Real Estate Scraper")
+# Streamlit UI
+st.title("🏠 Property Onion Scraper")
 
-uploaded_file = st.file_uploader("Upload the page_source.txt file", type="txt")
+# Section to download HTML
+if st.button("Download Page Source"):
+    html_content = download_page_source()
+    st.success("Page source downloaded successfully!")
+
+    st.download_button(
+        label="📄 Download HTML File",
+        data=html_content,
+        file_name="page_source.txt",
+        mime="text/plain"
+    )
+
+st.markdown("---")
+
+# Upload and scrape
+uploaded_file = st.file_uploader("Upload a page_source.txt file", type="txt")
 
 if uploaded_file:
     file_content = uploaded_file.read().decode("utf-8")
-    
+
     if st.button("Scrape Data"):
         df = scrape_real_estate_data(file_content)
         st.success("Scraping completed!")
         st.dataframe(df)
 
-        # Convert to CSV
         csv = df.to_csv(index=False).encode("utf-8")
-
         st.download_button(
             label="📥 Download CSV",
             data=csv,

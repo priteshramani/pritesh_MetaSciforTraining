@@ -14,7 +14,7 @@ def download_page_source(url="https://propertyonion.com/property_search"):
     # chrome_options.add_argument("--no-sandbox")
     # chrome_options.add_argument("--disable-dev-shm-usage")
 
-    chrome_options.binary_location = "/usr/bin/chromium-browser"
+    # chrome_options.binary_location = "/usr/bin/chromium-browser"
     
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
     driver.get(url)

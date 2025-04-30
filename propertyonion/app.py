@@ -12,7 +12,7 @@ def download_page_source(url="https://propertyonion.com/property_search"):
     options = webdriver.ChromeOptions()
     options.add_argument("--headless")  # Optional: run in headless mode
     # chrome_options.add_argument("--no-sandbox")
-    chrome_options.add_argument("--disable-dev-shm-usage")
+    # chrome_options.add_argument("--disable-dev-shm-usage")
 
     chrome_options.binary_location = "/usr/bin/chromium-browser"
     

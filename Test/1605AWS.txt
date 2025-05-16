@@ -1,0 +1,152 @@
+
+## Basic-Level AWS Interview Questions & Answers
+
+1. What is AWS?
+   AWS (Amazon Web Services) is a cloud computing platform that provides a wide variety of services such as virtual servers (EC2), storage (S3), databases (RDS, DynamoDB), networking (VPC), and much more.
+
+
+2. What are the main services provided by AWS?
+
+   Compute: EC2, Lambda
+   Storage: S3
+   Databases: RDS, DynamoDB
+   Networking: VPC , Route 53
+   Security: IAM
+   Monitoring:CloudWatch
+
+
+3. What is EC2?
+   EC2 (Elastic Compute Cloud) is a core AWS service that provides virtual servers in the cloud.
+
+
+4. What is S3 and what are its storage classes?
+   Amazon S3 (Simple Storage Service) is AWS’s object storage service — used to store and retrieve any amount of data at any time, from anywhere.
+
+   Standard , Standard-IA (Infrequent Access) , One Zone-IA , Glacier , Glacier Deep Archive
+
+
+5. What is the difference between an EC2 instance and a Lambda function?
+
+   EC2:  Virtual server you manage; suitable for long-running applications; good for full control, always-on apps
+   Lambda:  Serverless, managed by AWS; great for short, event-driven tasks (like resizing an image after upload)
+
+
+6. What is IAM and why is it used?
+   IAM (Identity and Access Management) is AWS’s service for controlling who can access what in your AWS account.
+   Create users and groups.
+   Assign permissions using policies.
+   Apply multi-factor authentication (MFA) for added security.
+
+
+7. How does AWS VPC work?
+   A VPC (Virtual Private Cloud) is your own isolated network inside AWS. It’s like having your own private data center in the cloud.
+
+
+8. What is the difference between public and private subnets in a VPC?
+
+   Public subnet: Has direct internet access via an Internet Gateway.
+   Private subnet: No direct internet access; typically used for databases or internal services.
+
+
+9. What is an Elastic Load Balancer (ELB)?
+   ELB automatically distributes incoming traffic across multiple targets (EC2 instances, containers, IPs) to ensure better performance and high availability. 
+   There are 3 types of ELBs:
+     Application Load Balancer (ALB) – Best for HTTP/HTTPS traffic with routing rules
+     Network Load Balancer (NLB) – Handles high performance TCP/UDP traffic
+     Gateway Load Balancer (GWLB) – For third-party virtual appliances (firewalls, etc.)
+
+
+10. What is Auto Scaling in AWS?
+    Auto Scaling automatically adjusts the number of EC2 instances in response to load — it scales out (adds instances) when demand increases and scales in (removes instances) when demand drops.
+
+
+
+ ##  Intermediate-Level AWS Interview Questions & Answers
+
+
+
+1. What are the different types of EC2 instance types?
+   EC2 instances are categorized by use cases:
+      General Purpose: Balanced CPU, memory	
+      Compute Optimized: High-performance CPU
+      Memory Optimized: RAM-intensive apps
+      Storage Optimized: High IOPS / throughput
+      GPU/Accelerated: GPUs / ML / HPC
+
+
+2. What is the difference between EBS and S3?
+
+   EBS (Elastic Block Store): Block storage for EC2 instances; Acts like a hard drive.
+   S3 (Simple Storage Service): Object storage designed for storing and retrieving any amount of data; highly scalable, accessible over HTTP
+
+
+3. How does Route 53 work in AWS?
+   Route 53 is AWS’s Domain Name System (DNS) service. It translates human-friendly domain names (like example.com) into IP addresses that computers use to connect.
+
+
+4. Explain the concept of security groups and NACLs.
+
+    Security Groups: Virtual firewalls at the instance level controlling inbound and outbound traffic. They are stateful, which means if you allow an incoming request, the response is automatically allowed. ***  instance-level, stateful, easier to manage.
+    NACLs (Network ACLs): Operate at the subnet level and control inbound and outbound traffic to and from subnets. They are stateless, meaning you must explicitly allow both inbound and outbound traffic. *** subnet-level, stateless, additional security layer.
+
+
+5. What is CloudWatch and how does it differ from CloudTrail?
+
+   CloudWatch: A monitoring service that collects metrics, logs, and events to help you track the performance and health of your AWS resources and applications.
+   CloudTrail: A logging service that records all API calls and actions taken by users or services in your AWS account. It’s used primarily for auditing and compliance.
+
+
+6. What is the difference between AWS RDS and DynamoDB?
+
+   RDS: Managed relational database service (e.g., MySQL, PostgreSQL).
+   DynamoDB: Fully managed NoSQL database for key-value and document storage.
+
+
+7. Explain AWS Lambda's cold start issue.
+   Cold start happens when a Lambda function is invoked after being idle for some time or scaled up to handle new requests. AWS has to initialize the runtime and code, which causes a delay (sometimes a few hundred milliseconds to seconds).
+
+
+8. What are AWS Availability Zones and Regions?
+
+   Regions: Geographical areas (e.g., us-east-1).
+   Availability Zones (AZs): Data centers within a region; help ensure high availability and fault tolerance.
+
+9. How do you secure data in transit and at rest in AWS?
+
+   In transit: Use SSL/TLS encryption.
+   At rest: Use AWS KMS to encrypt data in services like S3, RDS, EBS.
+
+10. Explain the Shared Responsibility Model of AWS.
+    AWS is responsible for the
+          Security of the cloud
+          Protecting infrastructure (hardware, software, networking, data center)
+    while customers are responsible for
+          Security in the cloud
+          Managing user access (IAM), securing your apps, encrypting your data, updating your OS if using EC2, etc.
+
+
+
+
+##  Advanced-Level AWS Interview Questions & Answers
+
+
+
+1. How would you design a fault-tolerant architecture on AWS?
+   
+    A fault-tolerant architecture ensures your application stays available even when components fail.
+
+   Multi-AZ deployment: Deploy resources across multiple availability zones.
+   Auto Scaling: Automatically replace failed instances and adjust capacity based on load.
+   Health checks: Route 53 with Health Checks + Failover Routing:
+   RDS Multi-AZ: For databases — ensures high availability by maintaining a standby in another AZ.
+
+
+
+
+
+
+
+
+
+
+  
